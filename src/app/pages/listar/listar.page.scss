@@ -1,0 +1,90 @@
+/* Estilos para la página Listar - Biblioteca personal */
+.listar-page {
+	padding: 18px 16px;
+	min-height: 100vh;
+	background: linear-gradient(180deg, #fffaf6 0%, #fffdfa 40%);
+
+	.page-hero {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		margin-bottom: 12px;
+	}
+
+	.hero-text h1 {
+		margin: 0;
+		font-size: 1.4rem;
+		color: #2b2b2b;
+	}
+
+	.lead {
+		margin: 0;
+		color: #666;
+		font-size: 0.95rem;
+	}
+
+	ion-searchbar {
+		--background: rgba(250, 245, 242, 0.9);
+		--border-radius: 10px;
+	}
+
+	.books-list {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		margin-top: 8px;
+	}
+
+	.empty {
+		text-align: center;
+		color: #666;
+		padding: 28px 12px;
+		background: rgba(255,255,255,0.8);
+		border-radius: 12px;
+		box-shadow: 0 6px 18px rgba(17,24,39,0.05);
+	}
+
+	.book-card {
+		display: flex;
+		gap: 12px;
+		align-items: flex-start;
+		background: linear-gradient(180deg,#ffffff 0%, #fffaf5 100%);
+		padding: 12px;
+		border-radius: 12px;
+		box-shadow: 0 8px 24px rgba(17,24,39,0.06);
+		border: 1px solid rgba(255,122,89,0.04);
+	}
+
+	.cover {
+		width: 72px;
+		height: 96px;
+		border-radius: 6px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #fff;
+		font-weight: 700;
+		font-size: 1.05rem;
+		flex-shrink: 0;
+	}
+
+	.initials { font-size: 1.1rem; }
+
+	.info { flex: 1; }
+
+	.book-title { margin: 0; font-size: 1.05rem; color: #222; }
+	.book-author { margin: 2px 0 8px 0; color: #777; font-size: 0.92rem }
+	.book-desc { margin: 0 0 8px 0; color: #555; font-size: 0.9rem }
+
+	.meta { display: flex; align-items: center; justify-content: space-between; gap: 8px }
+
+	.rating { color: #ffb86b; font-weight: 600 }
+
+	.actions ion-button { margin-left: 8px; --padding-start: 6px; --padding-end: 6px }
+
+	@media (max-width: 600px) {
+		.book-card { padding: 10px }
+		.cover { width: 58px; height: 80px }
+	}
+}
+

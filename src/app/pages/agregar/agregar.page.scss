@@ -1,0 +1,64 @@
+/* Estilos para la página Agregar - formulario coherente con el tema */
+.agregar-page {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	padding: 20px;
+	background: linear-gradient(180deg, #fff7f1 0%, #fffdfa 40%);
+
+	.card {
+		width: 100%;
+		max-width: 720px;
+		background: linear-gradient(180deg,#ffffff 0%, #fffaf5 100%);
+		border-radius: 14px;
+		padding: 22px;
+		box-shadow: 0 10px 30px rgba(17,24,39,0.06);
+		border: 1px solid rgba(255,122,89,0.05);
+	}
+
+	.title { margin: 0 0 6px 0; font-size: 1.4rem; color: #2b2b2b; font-weight:700 }
+	.subtitle { margin: 0 0 16px 0; color: #666 }
+
+	.add-form { display:flex; flex-direction:column; gap:12px }
+
+	.input-item { --background: rgba(245,245,246,0.95); --border-radius:10px; height:52px; align-items:center }
+	.input-icon { color: #ff7a59 }
+
+	.range-item ion-range { width: 100% }
+
+	.btn-add {
+		--background: linear-gradient(90deg,#ff9f66 0%, #ff7a59 100%);
+		--border-radius: 10px;
+		height: 46px;
+		font-weight:600;
+	}
+
+	/* Forzar color de inputs como en otras páginas */
+	/* target múltiples variantes de IonInput/IonTextarea para compatibilidad entre versiones */
+	ion-input::part(native),
+	ion-input::part(input),
+	ion-input::part(text),
+	ion-textarea::part(native),
+	ion-textarea::part(textarea),
+	ion-input input,
+	ion-textarea textarea {
+		color: #111 !important;
+		caret-color: #ff7a59 !important;
+	}
+
+	/* Placeholders */
+	ion-input::part(native)::placeholder,
+	ion-input::part(input)::placeholder,
+	ion-textarea::part(native)::placeholder,
+	ion-textarea::part(textarea)::placeholder,
+	ion-input input::placeholder,
+	ion-textarea textarea::placeholder {
+		color: rgba(0,0,0,0.45) !important;
+	}
+
+	@media (max-width: 600px) {
+		.card { padding: 16px }
+	}
+}
+

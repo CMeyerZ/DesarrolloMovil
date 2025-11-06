@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Mi Biblioteca</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="listar-page">
+  <div class="page-hero">
+    <div class="hero-text">
+      <h1>Tu biblioteca personal</h1>
+      <p class="lead">Explora tus libros guardados. Busca por título o autor.</p>
+    </div>
+    <ion-searchbar placeholder="Buscar libros" [(ngModel)]="searchTerm" showCancelButton="never"></ion-searchbar>
+  </div>
+
+  <div class="books-list">
+    <div *ngIf="books.length === 0" class="empty">
+      <p>No hay libros en tu biblioteca. Agrega algunos desde la pestaña "Agregar".</p>
+    </div>
+
+    <div class="book-card" *ngFor="let book of filteredBooks(); let i = index" role="listitem">
+      <div class="cover" [style.background]="book.color" aria-hidden="true">
+        <span class="initials">{{ getInitials(book.title) }}</span>
+      </div>
+
+      <div class="info">
+        <h2 class="book-title">{{ book.title }}</h2>
+        <p class="book-author">{{ book.author }}</p>
+        <p class="book-desc">{{ book.description }}</p>
+        <div class="meta">
+          <div class="rating">⭐ {{ book.rating }}</div>
+          <div class="actions">
+            <ion-button fill="clear" size="small" (click)="viewBook(book)">Ver detalles</ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

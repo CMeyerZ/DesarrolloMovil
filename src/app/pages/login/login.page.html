@@ -1,0 +1,66 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Iniciar sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="login-page">
+  <div class="hero">
+    
+
+    <div class="card">
+      <h1 class="title">Bienvenido</h1>
+      <p class="subtitle">Accede a tu biblioteca personal</p>
+
+      <form #loginForm="ngForm" class="login-form" autocomplete="on" (ngSubmit)="onSubmit(loginForm)">
+        <ion-item lines="none" class="input-item">
+          <ion-icon name="mail" slot="start" class="input-icon"></ion-icon>
+          <ion-input
+            type="email"
+            placeholder="Correo electrónico"
+            required
+            email
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            name="email"
+            [(ngModel)]="credentials.email"
+            #email="ngModel"
+            aria-label="Correo electrónico"></ion-input>
+        </ion-item>
+        <div class="field-error" *ngIf="(email.invalid && (email.dirty || email.touched)) || emailError">
+          <small *ngIf="email.errors?.required || emailError === 'El correo es obligatorio.'">El correo es obligatorio.</small>
+          <small *ngIf="email.errors?.email || emailError === 'El formato de correo no es válido.'">El formato de correo no es válido.</small>
+        </div>
+
+        <ion-item lines="none" class="input-item">
+          <ion-icon name="lock-closed" slot="start" class="input-icon"></ion-icon>
+          <ion-input
+            type="password"
+            placeholder="Contraseña"
+            required
+            name="password"
+            [(ngModel)]="credentials.password"
+            #password="ngModel"
+            minlength="6"
+            aria-label="Contraseña"></ion-input>
+        </ion-item>
+        <div class="field-error" *ngIf="(password.invalid && (password.dirty || password.touched)) || passwordError">
+          <small *ngIf="password.errors?.required || passwordError === 'La contraseña es obligatoria.'">La contraseña es obligatoria.</small>
+          <small *ngIf="password.errors?.minlength || passwordError === 'La contraseña debe tener al menos 6 caracteres.'">La contraseña debe tener al menos 6 caracteres.</small>
+        </div>
+
+  <ion-button expand="block" class="btn-login" type="submit">Entrar</ion-button>
+
+        <div class="options">
+          <ion-checkbox slot="start" checked="false" aria-label="Recordarme"></ion-checkbox>
+          <span class="remember">Recordarme</span>
+          <a class="forgot" href="#">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <div class="signup">
+          ¿Nuevo por aquí? <a href="/register">Crea una cuenta</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</ion-content>

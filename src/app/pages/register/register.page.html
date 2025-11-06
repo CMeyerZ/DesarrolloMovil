@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Crear cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="register-page">
+  <div class="hero">
+        <div class="card">
+      <h1 class="title">Únete a nuestra comunidad</h1>
+      <p class="subtitle">Crea tu cuenta y gestiona tus lecturas</p>
+
+      <form class="register-form" autocomplete="on">
+        <ion-item lines="none" class="input-item">
+          <ion-icon name="person" slot="start" class="input-icon"></ion-icon>
+          <ion-input type="text" placeholder="Nombre completo" required aria-label="Nombre completo"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="input-item">
+          <ion-icon name="mail" slot="start" class="input-icon"></ion-icon>
+          <ion-input type="email" placeholder="Correo electrónico" required aria-label="Correo electrónico"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="input-item">
+          <ion-icon name="lock-closed" slot="start" class="input-icon"></ion-icon>
+          <ion-input type="password" placeholder="Contraseña" required aria-label="Contraseña"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="input-item">
+          <ion-icon name="lock-open" slot="start" class="input-icon"></ion-icon>
+          <ion-input type="password" placeholder="Confirmar contraseña" required aria-label="Confirmar contraseña"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" class="btn-register" type="submit">Crear cuenta</ion-button>
+
+        <div class="signup-note">
+          ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,36 @@
+/* Estilos para Detalle / Editar libro */
+.detalle-page {
+	padding: 18px;
+	min-height: 100vh;
+	background: linear-gradient(180deg, #fffaf6 0%, #fffdfa 40%);
+
+	.card {
+		background: linear-gradient(180deg,#ffffff 0%, #fffaf5 100%);
+		border-radius: 14px;
+		padding: 18px;
+		box-shadow: 0 10px 30px rgba(17,24,39,0.06);
+		border: 1px solid rgba(255,122,89,0.04);
+	}
+
+	.top { display:flex; gap:12px; align-items:center }
+	.cover { width:84px; height:112px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700 }
+	.titles .title { margin:0; font-size:1.2rem; color:#222 }
+	.titles .author { margin:4px 0 0 0; color:#777 }
+
+	.edit-form { display:flex; flex-direction:column; gap:12px; margin-top:12px }
+	.input-item { --background: rgba(245,245,246,0.95); --border-radius:10px; height:52px; align-items:center }
+	.input-icon { color:#ff7a59 }
+	.range-item ion-range { width:100% }
+
+	.buttons { display:flex; gap:10px; margin-top:8px }
+	.btn-save { --background: linear-gradient(90deg,#ff9f66 0%, #ff7a59 100%); --border-radius:10px }
+
+	.empty { text-align:center; color:#666; padding:20px }
+
+	/* Forzar color de inputs */
+	ion-input::part(native), ion-input input, ion-textarea::part(native), ion-textarea textarea {
+		color: #111 !important;
+		caret-color: #ff7a59 !important;
+	}
+}
+
