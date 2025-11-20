@@ -1,40 +1,56 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Mi Biblioteca</ion-title>
+    <ion-title>BookTrack</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="listar-page">
   <div class="page-hero">
     <div class="hero-text">
-      <h1>Tu biblioteca personal</h1>
+      <h1>Mi Colección</h1>
       <p class="lead">Explora tus libros guardados. Busca por título o autor.</p>
     </div>
     <ion-searchbar placeholder="Buscar libros" [(ngModel)]="searchTerm" showCancelButton="never"></ion-searchbar>
   </div>
 
-  <div class="books-list">
-    <div *ngIf="books.length === 0" class="empty">
-      <p>No hay libros en tu biblioteca. Agrega algunos desde la pestaña "Agregar".</p>
-    </div>
 
-    <div class="book-card" *ngFor="let book of filteredBooks(); let i = index" role="listitem">
-      <div class="cover" [style.background]="book.color" aria-hidden="true">
-        <span class="initials">{{ getInitials(book.title) }}</span>
-      </div>
+  <div *ngIf="books.length === 0" class="empty">
+    <p>No hay libros en tu biblioteca. Agrega algunos desde la pestaña "Agregar".</p>
+  </div>
 
-      <div class="info">
-        <h2 class="book-title">{{ book.title }}</h2>
-        <p class="book-author">{{ book.author }}</p>
-        <p class="book-desc">{{ book.description }}</p>
-        <div class="meta">
-          <div class="rating">⭐ {{ book.rating }}</div>
-          <div class="actions">
-            <ion-button fill="clear" size="small" (click)="viewBook(book)">Ver detalles</ion-button>
+  <ion-accordion-group>
+    <ion-accordion *ngFor="let book of filteredBooks(); let i = index" [value]="book.id">
+      <ion-item slot="header" lines="none" class="accordion-header">
+        <img *ngIf="book.image" slot="start" [src]="book.image" class="book-thumb" alt="Portada {{book.title}}" />
+        <ion-label class="ms-3">
+          <div class="book-title">{{ book.title }}</div>
+          <div class="book-author small text-muted">{{ book.author }}</div>
+        </ion-label>
+
+        <div slot="end" class="text-end">
+          <div class="book-isbn small text-muted">{{ book.isbn || '—' }}</div>
+          <div class="rating-stars" aria-label="Calificación">
+            <ion-icon *ngFor="let s of [1,2,3,4,5]"
+              [name]="(book.rating || 0) >= s ? 'star' : 'star-outline'"></ion-icon>
           </div>
         </div>
+      </ion-item>
+
+      <div class="accordion-body" slot="content">
+        <p><strong>Categoría:</strong> {{ book.category || '—' }}</p>
+        <p><strong>Páginas:</strong> {{ book.pages || '—' }}</p>
+        <p><strong>Estado:</strong> {{ book.status || '—' }}</p>
+        <p><strong>Fecha inicio:</strong> {{ book.startDate || '—' }}</p>
+        <p><strong>Fecha fin:</strong> {{ book.endDate || '—' }}</p>
+        <p><strong>Descripción:</strong> {{ book.description || '—' }}</p>
+        <div class="d-flex gap-2 mt-2">
+          <ion-button size="small" fill="clear" (click)="viewBook(book)">Ver detalles</ion-button>
+          <ion-button size="small" color="danger" fill="outline" (click)="deleteBook(book)">Eliminar</ion-button>
+        </div>
       </div>
-    </div>
-  </div>
+    </ion-accordion>
+  </ion-accordion-group>
+
+
 
 </ion-content>

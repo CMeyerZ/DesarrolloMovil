@@ -1,38 +1,104 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Agregar libro</ion-title>
+    <ion-title>BookTrack</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="agregar-page">
   <div class="card">
     <h1 class="title">Agregar un libro</h1>
-    <p class="subtitle">Completa los datos y guarda en tu biblioteca.</p>
+    <p class="subtitle">Completa los datos y guarda en tu colección.</p>
 
     <form (ngSubmit)="addBook()" class="add-form">
-      <ion-item lines="none" class="input-item">
+      <!--TITULO-->
+      <ion-item lines="none" class="input-item" [class.invalid]="title.invalid && (title.dirty || title.touched)">
         <ion-icon name="book" slot="start" class="input-icon"></ion-icon>
-        <ion-input [(ngModel)]="book.title" name="title" type="text" placeholder="Título" required aria-label="Título"></ion-input>
+        <ion-input [(ngModel)]="book.title" name="title" type="text" placeholder="Título" required
+          aria-label="Título" #title="ngModel"></ion-input>
       </ion-item>
-
-      <ion-item lines="none" class="input-item">
+      <div class="field-error" *ngIf="title.invalid && (title.dirty || title.touched)">
+        <small *ngIf="title.errors?.['required']">El título es obligatorio.</small>
+      </div>
+      <!--AUTOR-->
+      <ion-item lines="none" class="input-item" [class.invalid]="author.invalid && (author.dirty || author.touched)">
         <ion-icon name="person" slot="start" class="input-icon"></ion-icon>
-        <ion-input [(ngModel)]="book.author" name="author" type="text" placeholder="Autor" required aria-label="Autor"></ion-input>
+        <ion-input [(ngModel)]="book.author" name="author" type="text" placeholder="Autor" required
+          aria-label="Autor" #author="ngModel"></ion-input>
       </ion-item>
-
+      <div class="field-error" *ngIf="author.invalid && (author.dirty || author.touched)">
+        <small *ngIf="author.errors?.['required']">El autor es obligatorio.</small>
+      </div>
+      <!--ISBN-->
+      <ion-item lines="none" class="input-item" [class.invalid]="isbn.invalid && (isbn.dirty || isbn.touched)">
+        <ion-icon name="barcode" slot="start" class="input-icon"></ion-icon>
+        <!-- ISBN obligatorio: 13 dígitos numéricos -->
+        <ion-input [(ngModel)]="book.isbn" name="isbn" type="text" placeholder="ISBN (13 dígitos)" required
+          minlength="13" maxlength="13" pattern="[0-9]{13}" inputmode="numeric" aria-label="ISBN"
+          #isbn="ngModel"></ion-input>
+      </ion-item>
+      <div class="field-error" *ngIf="isbn.invalid && (isbn.dirty || isbn.touched)">
+        <small *ngIf="isbn.errors?.['required']">El ISBN es obligatorio.</small>
+        <small *ngIf="isbn.errors?.['pattern'] || isbn.errors?.['minlength'] || isbn.errors?.['maxlength']">El ISBN debe
+          tener 13 dígitos numéricos.</small>
+      </div>
+      <!--CATEGORÍA-->
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="pricetags" slot="start" class="input-icon"></ion-icon>
+        <ion-input [(ngModel)]="book.category" name="category" type="text" placeholder="Categoría (ej. Novela)"
+          aria-label="Categoría"></ion-input>
+      </ion-item>
+      <!--PÁGINAS-->
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="documents" slot="start" class="input-icon"></ion-icon>
+        <ion-input [(ngModel)]="book.pages" name="pages" type="number" placeholder="Número de páginas"
+          aria-label="Páginas"></ion-input>
+      </ion-item>
+      <!--ESTADO-->
+      <ion-item lines="none" class="input-item white-item">
+        <ion-icon name="bookmark" slot="start" class="input-icon"></ion-icon>
+        <label class="item-label">Estado</label>
+        <select [(ngModel)]="book.status" name="status" aria-label="Estado">
+          <option value="por leer">Por leer</option>
+          <option value="leyendo">Leyendo</option>
+          <option value="leído">Leído</option>
+        </select>
+      </ion-item>
+      <!--FECHA INICIO-->
+      <ion-item lines="none" class="input-item white-item">
+        <ion-icon name="calendar-clear" slot="start" class="input-icon"></ion-icon>
+        <input type="date" [(ngModel)]="book.startDate" name="startDate"
+          [disabled]="!(book.status === 'leyendo' || book.status === 'leído')" aria-label="Fecha inicio">
+      </ion-item>
+      <!--FECHA FIN-->
+      <ion-item lines="none" class="input-item white-item">
+        <ion-icon name="calendar" slot="start" class="input-icon"></ion-icon>
+        <input type="date" [(ngModel)]="book.endDate" name="endDate" [disabled]="!(book.status === 'leído')"
+          aria-label="Fecha fin">
+      </ion-item>
+      <!--RESEÑA-->
       <ion-item lines="none" class="input-item">
         <ion-icon name="document-text" slot="start" class="input-icon"></ion-icon>
-        <ion-textarea [(ngModel)]="book.description" name="description" placeholder="Descripción (opcional)" aria-label="Descripción"></ion-textarea>
+        <ion-textarea [(ngModel)]="book.description" name="resena" placeholder="Reseña (opcional)"
+          aria-label="Reseña"></ion-textarea>
       </ion-item>
-
+      <!--CALIFICACIÓN-->
       <ion-item lines="none" class="input-item range-item">
         <ion-icon name="star" slot="start" class="input-icon"></ion-icon>
-        <ion-range [(ngModel)]="book.rating" name="rating" min="0" max="5" step="0.1"></ion-range>
+        <!-- Estrellas interactivas: seleccionar calificación 1..5 -->
+        <div class="rating-stars" role="radiogroup" aria-label="Calificación">
+          <button type="button" class="star-btn" *ngFor="let s of [1,2,3,4,5]" (click)="book.rating = s"
+            [attr.aria-checked]="book.rating === s" role="radio" aria-label="{{s}} estrella">
+            <ion-icon [name]="(book.rating || 0) >= s ? 'star' : 'star-outline'"></ion-icon>
+          </button>
+        </div>
       </ion-item>
-
-     
-
-      <ion-button expand="block" type="submit" class="btn-add">Guardar libro</ion-button>
+      <!-- BOTON FOTO -->
+      <ion-button (click)="tomarFoto()">Tomar Foto</ion-button>
+    <div *ngIf="imagenCapturada">
+      <h2>Foto tomada:</h2>
+      <img [src]="imagenCapturada" />
+    </div>
+      <ion-button expand="block" type="submit" class="btn-add" [disabled]="title.invalid || author.invalid || isbn.invalid">Guardar libro</ion-button>
     </form>
   </div>
 </ion-content>

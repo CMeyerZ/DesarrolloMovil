@@ -1,8 +1,14 @@
-/* Estilos para la página Listar - Biblioteca personal */
 .listar-page {
 	padding: 18px 16px;
 	min-height: 100vh;
 	background: linear-gradient(180deg, #fffaf6 0%, #fffdfa 40%);
+	position: relative;
+	overflow: auto;
+	--background: linear-gradient(180deg, rgba(255, 159, 102, 0.03), rgba(255, 122, 89, 0.02)), url('/assets/images/biblioteca.avif');
+	background: var(--background);
+	background-repeat: no-repeat;
+	background-position: right top;
+	background-size: 60% auto;
 
 	.page-hero {
 		display: flex;
@@ -14,12 +20,12 @@
 	.hero-text h1 {
 		margin: 0;
 		font-size: 1.4rem;
-		color: #2b2b2b;
+		color: #ffffff;
 	}
 
 	.lead {
 		margin: 0;
-		color: #666;
+		color: #d8d8d8;
 		font-size: 0.95rem;
 	}
 
@@ -33,26 +39,110 @@
 		flex-direction: column;
 		gap: 12px;
 		margin-top: 8px;
+		padding-bottom: 20px;
+		width: 100%;
+		max-width: 980px;
+		margin-left: auto;
+		margin-right: auto;
+		align-items: center;
+	}
+
+	ion-accordion-group {
+		display: block
+	}
+
+	.accordion-header {
+		display: flex;
+		align-items: center
+	}
+
+	.accordion-body {
+		padding: 12px 16px;
+	}
+
+	ion-accordion {
+		width: 100%;
+		max-width: 920px;
+		background: #ffffff;
+		border-radius: 12px;
+		box-shadow: 0 8px 24px rgba(17, 24, 39, 0.06);
+		border: 1px solid rgba(255, 122, 89, 0.04);
+		margin-bottom: 12px;
+		margin-left: auto;
+		margin-right: auto;
+		overflow: hidden;
+	}
+
+	ion-accordion>ion-item[slot="header"] {
+		background: transparent !important;
+		--background: transparent !important;
+		padding: 12px 16px;
+	}
+
+	.accordion-body {
+		background: #fff;
+		color: #111
+	}
+
+	.books-list ion-accordion .book-title,
+	.books-list ion-accordion .book-author,
+	.books-list ion-accordion .book-isbn,
+	.books-list ion-accordion .accordion-body p,
+	.books-list ion-accordion ion-label,
+	.books-list ion-accordion .rating-stars {
+		color: #111 !important;
+	}
+
+	.books-list ion-accordion>ion-item[slot="header"] .book-title,
+	.books-list ion-accordion .accordion-header .book-title,
+	.books-list ion-accordion .book-title {
+		color: #111 !important;
+		font-weight: 700;
+	}
+
+	.books-list ion-accordion .cover,
+	.books-list ion-accordion .cover-text {
+		display: none !important;
+	}
+
+	.books-list ion-accordion>ion-item[slot="header"] ion-label {
+		margin-left: 0 !important;
+	}
+
+	.book-title {
+		color: #111;
+	}
+
+	.books-list ion-accordion .book-title,
+	.books-list ion-accordion .book-isbn,
+	.book-title,
+	.book-isbn {
+		color: #111 !important;
+		font-weight: 700 !important;
 	}
 
 	.empty {
 		text-align: center;
 		color: #666;
 		padding: 28px 12px;
-		background: rgba(255,255,255,0.8);
+		background: rgba(255, 255, 255, 0.8);
 		border-radius: 12px;
-		box-shadow: 0 6px 18px rgba(17,24,39,0.05);
+		box-shadow: 0 6px 18px rgba(17, 24, 39, 0.05);
 	}
 
 	.book-card {
 		display: flex;
 		gap: 12px;
 		align-items: flex-start;
-		background: linear-gradient(180deg,#ffffff 0%, #fffaf5 100%);
+		background: linear-gradient(180deg, #ffffff 0%, #fffaf5 100%);
 		padding: 12px;
 		border-radius: 12px;
-		box-shadow: 0 8px 24px rgba(17,24,39,0.06);
-		border: 1px solid rgba(255,122,89,0.04);
+		box-shadow: 0 8px 24px rgba(17, 24, 39, 0.06);
+		border: 1px solid rgba(255, 122, 89, 0.04);
+		width: 100%;
+		max-width: 920px;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	.cover {
@@ -68,23 +158,139 @@
 		flex-shrink: 0;
 	}
 
-	.initials { font-size: 1.1rem; }
+	.book-thumb {
+		width: 56px;
+		height: 76px;
+		object-fit: cover;
+		border-radius: 6px;
+		margin-right: 10px;
+		flex-shrink: 0;
+		border: 1px solid rgba(0, 0, 0, 0.06);
+		background: #f7f7f7;
+	}
 
-	.info { flex: 1; }
+	.initials {
+		font-size: 1.1rem;
+	}
 
-	.book-title { margin: 0; font-size: 1.05rem; color: #222; }
-	.book-author { margin: 2px 0 8px 0; color: #777; font-size: 0.92rem }
-	.book-desc { margin: 0 0 8px 0; color: #555; font-size: 0.9rem }
+	.info {
+		flex: 1;
+	}
 
-	.meta { display: flex; align-items: center; justify-content: space-between; gap: 8px }
+	.book-title {
+		margin: 0;
+		font-size: 1.05rem;
+		color: #111 !important;
+	}
 
-	.rating { color: #ffb86b; font-weight: 600 }
+	.book-author {
+		margin: 2px 0 8px 0;
+		color: #777;
+		font-size: 0.92rem
+	}
 
-	.actions ion-button { margin-left: 8px; --padding-start: 6px; --padding-end: 6px }
+	.book-desc {
+		margin: 0 0 8px 0;
+		color: #555;
+		font-size: 0.9rem
+	}
+
+	.meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px
+	}
+
+	.rating {
+		color: #ffb86b;
+		font-weight: 600
+	}
+
+	.rating {
+		color: #ffb86b;
+		font-weight: 600
+	}
+
+	.rating-stars {
+		display: flex;
+		gap: 6px;
+		align-items: center
+	}
+
+	.rating-stars ion-icon {
+		font-size: 1.05rem;
+		color: #ffb86b
+	}
+
+	.actions ion-button {
+		margin-left: 8px;
+		--padding-start: 6px;
+		--padding-end: 6px
+	}
 
 	@media (max-width: 600px) {
-		.book-card { padding: 10px }
-		.cover { width: 58px; height: 80px }
+		.book-card {
+			padding: 10px
+		}
+
+		.cover {
+			width: 58px;
+			height: 80px
+		}
+	}
+
+	@media (max-width: 480px) {
+		.listar-page {
+			background-size: 40% auto;
+
+			.books-list {
+				padding-bottom: 26px
+			}
+
+			.book-card {
+				padding: 8px;
+				border-radius: 10px;
+				align-items: center;
+				gap: 8px;
+			}
+
+			.cover {
+				width: 56px;
+				height: 72px
+			}
+
+			.book-title {
+				font-size: 0.98rem
+			}
+
+			.book-author {
+				font-size: 0.86rem
+			}
+
+			.book-desc {
+				font-size: 0.82rem
+			}
+		}
+	}
+
+	@media (min-width: 1000px) {
+		.books-list {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 16px;
+		}
+
+		.book-card {
+			max-width: 100%;
+			margin: 0
+		}
+	}
+
+	.books-list,
+	.book-card,
+	.page-hero {
+		position: relative;
+		z-index: 1
 	}
 }
-

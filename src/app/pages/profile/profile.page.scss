@@ -1,0 +1,158 @@
+.profile-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+  overflow: auto;
+  --background: linear-gradient(180deg, rgba(255, 159, 102, 0.03), rgba(255, 122, 89, 0.02)), url('/assets/images/biblioteca.avif');
+  background: var(--background);
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: 60% auto;
+
+  .profile-card {
+    width: 100%;
+    max-width: 720px;
+    background: linear-gradient(180deg, #ffffff 0%, #fffaf5 100%);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+    border: 1px solid rgba(255, 122, 89, 0.05);
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  /* Asegurar que los inputs y labels en la tarjeta sean blancos/negros como el resto */
+  .profile-card ion-list,
+  .profile-card ion-item,
+  .profile-card ion-input {
+    --background: #ffffff;
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .profile-card ion-item {
+    --ion-item-background: #ffffff;
+    border-radius: 8px;
+    padding: 8px 12px;
+    /* hacer los inputs claramente visibles: fondo blanco, borde y separación */
+    background: transparent;
+    border: none;
+    margin-bottom: 8px;
+  }
+
+  .profile-card ion-label {
+    color: #000000;
+    font-weight: 600;
+  }
+
+  /* Asegurar que el texto de los inputs nativos sea negro */
+  .profile-card ion-input {
+    --color: #000000;
+  }
+
+  /* Apuntar al input nativo dentro de ion-input para forzar color en diferentes versiones de Ionic */
+  .profile-card ion-input input,
+  .profile-card ion-input .native-input,
+  .profile-card input {
+    color: #000000 !important;
+    background: transparent;
+  }
+
+  /* Crear una caja de entrada visible dentro del ion-item */
+  .profile-card .input-box {
+    background: #ffffff;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 8px 10px;
+    min-height: 44px;
+    display: block;
+  }
+
+  /* Asegurar que la etiqueta quede sobre la caja y no se superponga */
+  .profile-card ion-label[position="stacked"] {
+    display: block;
+    margin-bottom: 6px;
+    color: #000000;
+    font-weight: 600;
+  }
+
+  /* Aplicar la caja visible al ion-input nativo dentro del item */
+  .profile-card ion-item ion-input,
+  .profile-card ion-item input {
+    width: 100%;
+  }
+
+  /* Seleccionar el input nativo y envolver estilos visuales */
+  .profile-card ion-item ion-input::part(native) {
+    color: #000000;
+  }
+
+  /* Fallback: aplicar la caja directamente al elemento input cuando exista */
+  .profile-card ion-item input {
+    background: #ffffff !important;
+    border-radius: 6px !important;
+    border: 1px solid #e6e6e6 !important;
+    padding: 8px 10px !important;
+    color: #000000 !important;
+    min-height: 40px;
+    box-sizing: border-box;
+  }
+
+  .profile-card h3 {
+    color: #222222;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    margin: 0 0 6px 0;
+    font-size: 1.4rem;
+    color: #2b2b2b;
+    font-weight: 700;
+  }
+
+  .muted {
+    color: #666;
+    margin-bottom: 12px
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px
+  }
+
+  ion-button {
+    --border-radius: 10px
+  }
+
+  .profile-card {
+    position: relative;
+    z-index: 1
+  }
+
+}
+
+@media (max-width: 600px) {
+  .profile-page .profile-card {
+    padding: 16px
+  }
+
+  .profile-page h2 {
+    font-size: 1.15rem
+  }
+}
+
+@media (max-width: 420px) {
+  .profile-page {
+    background-size: 40% auto
+  }
+
+  .profile-page .profile-card {
+    max-width: 96%;
+    padding: 12px
+  }
+}
