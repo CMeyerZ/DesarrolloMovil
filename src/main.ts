@@ -4,6 +4,24 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
+import { addIcons } from 'ionicons';
+import { star, starOutline, book, person, documentText, colorPalette, barcode, pricetags, bookmark, calendar, logOut } from 'ionicons/icons';
+try {
+  addIcons({
+    'star': star,
+    'star-outline': starOutline,
+    'book': book,
+    'person': person,
+    'documentText': documentText,
+    'colorPalette': colorPalette,
+    'barcode': barcode,
+    'pricetags': pricetags,
+    'bookmark': bookmark,
+    'calendar': calendar,
+    'log-out': logOut
+  });
+} catch (e) {
+}
 
 bootstrapApplication(AppComponent, {
   providers: [

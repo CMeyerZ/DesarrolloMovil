@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, IonIcon, IonAccordion, IonAccordionGroup, IonItem, IonLabel } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { star, starOutline } from 'ionicons/icons';
 import { Router } from '@angular/router';
 
 interface Book {
@@ -10,7 +12,14 @@ interface Book {
   author: string;
   description: string;
   rating: number;
-  color: string; // cover color
+  color: string;
+  isbn?: string;
+  image?: string | null;
+  category?: string;
+  pages?: number;
+  status?: 'por leer' | 'leyendo' | 'leído';
+  startDate?: string | null;
+  endDate?: string | null;
 }
 
 @Component({
@@ -18,7 +27,7 @@ interface Book {
   templateUrl: './listar.page.html',
   styleUrls: ['./listar.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, IonIcon, IonAccordion, IonAccordionGroup, IonItem, IonLabel, CommonModule, FormsModule]
 })
 export class ListarPage implements OnInit {
 
@@ -30,39 +39,75 @@ export class ListarPage implements OnInit {
       title: 'Cien años de soledad',
       author: 'Gabriel García Márquez',
       description: 'Una saga familiar mágica y épica situada en Macondo.',
-      rating: 4.8,
-      color: 'linear-gradient(180deg,#FF9F66,#FF7A59)'
+      rating: 5,
+      color: 'linear-gradient(180deg,#FF9F66,#FF7A59)',
+      isbn: '9798890981745',
+      category: 'Novela',
+      pages: 432,
+      status: 'por leer',
+      startDate: null,
+      endDate: null
     },
     {
       id: 2,
       title: 'Don Quijote de la Mancha',
       author: 'Miguel de Cervantes',
       description: 'Aventuras del caballero andante más famoso de la literatura española.',
-      rating: 4.6,
-      color: 'linear-gradient(180deg,#8EC5FC,#E0C3FC)'
+      rating: 5,
+      color: 'linear-gradient(180deg,#8EC5FC,#E0C3FC)',
+      isbn: '9788491057536',
+      category: 'Clásico',
+      pages: 1024,
+      status: 'por leer',
+      startDate: null,
+      endDate: null
     },
     {
       id: 3,
       title: 'El Principito',
       author: 'Antoine de Saint-Exupéry',
       description: 'Un pequeño príncipe viaja y nos enseña sobre la amistad y la vida.',
-      rating: 4.7,
-      color: 'linear-gradient(180deg,#FFD6B0,#FF8C6A)'
+      rating: 4,
+      color: 'linear-gradient(180deg,#FFD6B0,#FF8C6A)',
+      isbn: '9788418174193',
+      category: 'Infantil',
+      pages: 96,
+      status: 'leyendo',
+      startDate: '2025-10-15',
+      endDate: null
     },
     {
       id: 4,
       title: 'Siddhartha',
       author: 'Hermann Hesse',
       description: 'Búsqueda espiritual de un hombre en la India antigua.',
-      rating: 4.4,
-      color: 'linear-gradient(180deg,#A8E6CF,#DCEDC2)'
+      rating: 4,
+      color: 'linear-gradient(180deg,#A8E6CF,#DCEDC2)',
+      isbn: '9789358487169',
+      category: 'Filosofía',
+      pages: 168,
+      status: 'leído',
+      startDate: '2024-03-01',
+      endDate: '2024-03-20'
     }
   ];
 
   constructor(private router: Router) { }
 
+  ngAfterViewInit() {
+    try {
+      addIcons({ 'star': star, 'star-outline': starOutline });
+    } catch (e) {
+
+    }
+  }
+
   ngOnInit() {
-    // Cargar libros desde localStorage si existen
+
+    this.loadBooks();
+  }
+
+  private loadBooks() {
     const key = 'books';
     const stored = localStorage.getItem(key);
     if (stored) {
@@ -70,11 +115,22 @@ export class ListarPage implements OnInit {
         const parsed = JSON.parse(stored) as Book[];
         if (Array.isArray(parsed) && parsed.length > 0) {
           this.books = parsed;
+          return;
         }
       } catch (e) {
         console.warn('Error parsing stored books', e);
       }
     }
+
+    try {
+      localStorage.setItem(key, JSON.stringify(this.books));
+    } catch (e) {
+      console.warn('No se pudo inicializar localStorage con libros', e);
+    }
+  }
+
+  ionViewWillEnter() {
+    this.loadBooks();
   }
 
   filteredBooks(): Book[] {
@@ -90,13 +146,11 @@ export class ListarPage implements OnInit {
   }
 
   viewBook(book: Book) {
-    // navegar a la página de detalle con el id del libro
     this.router.navigateByUrl(`/detalle/${book.id}`);
   }
 
   deleteBook(book: Book) {
     this.books = this.books.filter(b => b.id !== book.id);
-    // Guardar cambios en localStorage
     try {
       localStorage.setItem('books', JSON.stringify(this.books));
     } catch (e) {
