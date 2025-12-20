@@ -1,42 +1,58 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Crear cuenta</ion-title>
+    <ion-title>BookTrack</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="register-page">
-  <div class="hero">
-        <div class="card">
-      <h1 class="title">Únete a nuestra comunidad</h1>
-      <p class="subtitle">Crea tu cuenta y gestiona tus lecturas</p>
 
-      <form class="register-form" autocomplete="on">
-        <ion-item lines="none" class="input-item">
-          <ion-icon name="person" slot="start" class="input-icon"></ion-icon>
-          <ion-input type="text" placeholder="Nombre completo" required aria-label="Nombre completo"></ion-input>
-        </ion-item>
+  <div class="card">
+    <h1 class="title">Únete a nuestra comunidad</h1>
+    <p class="subtitle">Crea tu cuenta y gestiona tus lecturas</p>
 
-        <ion-item lines="none" class="input-item">
-          <ion-icon name="mail" slot="start" class="input-icon"></ion-icon>
-          <ion-input type="email" placeholder="Correo electrónico" required aria-label="Correo electrónico"></ion-input>
-        </ion-item>
+    <form class="register-form" autocomplete="on" (submit)="onSubmit($event)">
+      <ion-item lines="none" class="input-item" [class.invalid]="errors.name">
+        <ion-icon [icon]="person" slot="start" class="input-icon"></ion-icon>
+        <ion-input type="text" placeholder="Nombre completo" required aria-label="Nombre completo"
+          [(ngModel)]="formData.name" (ngModelChange)="validateField('name')" name="name"
+          aria-invalid="{{errors.name ? 'true':'false'}}">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="errors.name" class="error">{{ errors.name }}</div>
 
-        <ion-item lines="none" class="input-item">
-          <ion-icon name="lock-closed" slot="start" class="input-icon"></ion-icon>
-          <ion-input type="password" placeholder="Contraseña" required aria-label="Contraseña"></ion-input>
-        </ion-item>
+      <ion-item lines="none" class="input-item" [class.invalid]="errors.email">
+        <ion-icon [icon]="mail" slot="start" class="input-icon"></ion-icon>
+        <ion-input type="email" placeholder="Correo electrónico" required aria-label="Correo electrónico"
+          [(ngModel)]="formData.email" (ngModelChange)="validateField('email')" name="email"
+          aria-invalid="{{errors.email ? 'true':'false'}}">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="errors.email" class="error">{{ errors.email }}</div>
 
-        <ion-item lines="none" class="input-item">
-          <ion-icon name="lock-open" slot="start" class="input-icon"></ion-icon>
-          <ion-input type="password" placeholder="Confirmar contraseña" required aria-label="Confirmar contraseña"></ion-input>
-        </ion-item>
+      <ion-item lines="none" class="input-item" [class.invalid]="errors.password">
+        <ion-icon [icon]="lockClosed" slot="start" class="input-icon"></ion-icon>
+        <ion-input type="password" placeholder="Contraseña" required aria-label="Contraseña"
+          [(ngModel)]="formData.password" (ngModelChange)="validateField('password')" name="password"
+          aria-invalid="{{errors.password ? 'true':'false'}}">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="errors.password" class="error">{{ errors.password }}</div>
 
-        <ion-button expand="block" class="btn-register" type="submit">Crear cuenta</ion-button>
+      <ion-item lines="none" class="input-item" [class.invalid]="errors.confirm">
+        <ion-icon [icon]="lockOpen" slot="start" class="input-icon"></ion-icon>
+        <ion-input type="password" placeholder="Confirmar contraseña" required aria-label="Confirmar contraseña"
+          [(ngModel)]="formData.confirm" (ngModelChange)="validateField('confirm')" name="confirm"
+          aria-invalid="{{errors.confirm ? 'true':'false'}}">
+        </ion-input>
+      </ion-item>
+      <div *ngIf="errors.confirm" class="error">{{ errors.confirm }}</div>
+      <ion-button expand="block" class="btn-register" type="submit" [class.disabled]="!isFormValid()"
+        [attr.aria-disabled]="!isFormValid()">Crear cuenta</ion-button>
 
-        <div class="signup-note">
-          ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
-        </div>
-      </form>
-    </div>
+      <div class="signup-note">
+        ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
+      </div>
+    </form>
   </div>
+
 </ion-content>

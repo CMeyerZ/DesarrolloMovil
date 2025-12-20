@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>BookTrack</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="profile-page">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Perfil</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="profile-card">
+    <h2>Bienvenido, {{ userName }}</h2>
+    <p class="muted">Gestiona tu biblioteca desde aquí.</p>
+
+    <p *ngIf="userEmail" class="muted">{{ userEmail }}</p>
+
+    <div class="actions">
+      <ion-button expand="block" color="primary" (click)="goToList()">Ir a mi colección</ion-button>
+      <ion-button expand="block" color="secondary" fill="outline" (click)="goToAdd()">Agregar libro</ion-button>
+      <ion-button expand="block" color="danger" fill="outline" (click)="logout()">Cerrar sesión</ion-button>
+      <ion-button expand="block" color="tertiary" fill="outline" (click)="startEdit()">Editar contraseña</ion-button>
+      <ion-button expand="block" color="danger" (click)="deleteAccount()">Eliminar cuenta</ion-button>
+    </div>
+  </div>
+
+  <div class="profile-card" *ngIf="editing">
+    <h3>Editar contraseña</h3>
+
+    <form (ngSubmit)="changePassword()">
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Contraseña actual</ion-label>
+          <ion-input type="password" [(ngModel)]="currentPassword" name="currentPassword" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Nueva contraseña</ion-label>
+          <ion-input type="password" [(ngModel)]="newPassword" name="newPassword" required minlength="6"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Confirmar nueva contraseña</ion-label>
+          <ion-input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <div class="actions">
+        <ion-button type="submit" expand="block" color="primary">Guardar</ion-button>
+        <ion-button type="button" expand="block" fill="outline" color="medium" (click)="cancelEdit()">Cancelar</ion-button>
+      </div>
+    </form>
+  </div>
+
+</ion-content>

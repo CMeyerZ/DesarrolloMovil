@@ -1,20 +1,35 @@
-/* Estilos para login con tema libros */
 .login-page {
 	--ion-safe-area-top: 18px;
 	background: linear-gradient(180deg, #fff7f1 0%, #fffdfa 40%);
-	min-height: 100vh;
+	position: relative;
+	overflow: hidden;
+	--background: linear-gradient(180deg, rgba(255,159,102,0.04), rgba(255,122,89,0.02)), url('/assets/images/biblioteca.avif');
+	background: var(--background);
+	background-repeat: no-repeat;
+	background-position: right top;
+	background-size: 60% auto;
+	min-height: calc(100vh - 56px);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 24px;
+	padding: 24px 16px;
 
 	.hero {
-		width: 100%;
-		max-width: 920px;
+		width: min(920px, 100%);
+		margin: 0 auto;
 		display: grid;
-		grid-template-columns: 1fr 420px;
+		grid-template-columns: 1fr;
 		gap: 28px;
 		align-items: center;
+		justify-items: center;
+		align-content: center;
+		place-items: center;
+	}
+
+	@media (min-width: 920px) {
+		.hero {
+			grid-template-columns: 1fr 420px;
+		}
 	}
 
 	.illustration {
@@ -38,6 +53,13 @@
 		padding: 28px 24px;
 		box-shadow: 0 8px 30px rgba(17, 24, 39, 0.08);
 		border: 1px solid rgba(255,122,89,0.06);
+		width: 100%;
+		max-width: 520px;
+		margin: 0 auto;
+		align-self: center;
+		justify-self: center;
+		position: relative;
+		z-index: 1;
 	}
 
 	.title {
@@ -68,22 +90,26 @@
 		align-items: center;
 	}
 
-	/* Forzar color de texto dentro de los inputs (soluciona tema: texto blanco) */
 	.input-item {
 		color: #111 !important;
-		--color: #111 !important; /* algunas versiones de Ionic usan --color */
+		--color: #111 !important;
 	}
 
-	/* Asegurar que el input nativo use texto negro y placeholder oscuro */
 	.input-item ion-input::part(native) {
 		font-size: 0.98rem;
 		color: #111 !important;
 		caret-color: #ff7a59 !important;
 	}
 
-	/* Placeholder dentro del input nativo */
 	.input-item ion-input::part(native)::placeholder {
 		color: rgba(0,0,0,0.45) !important;
+	}
+
+	.field-error small {
+		color: #b91c1c;
+		font-weight: 600;
+		display: block;
+		margin-top: 6px;
 	}
 
 	.input-icon {
@@ -136,7 +162,6 @@
 		font-weight: 600;
 	}
 
-	/* Responsivo */
 	@media (max-width: 760px) {
 		.hero {
 			grid-template-columns: 1fr;

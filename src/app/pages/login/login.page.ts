@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem,IonIcon, IonInput, IonButton, IonCheckbox } from '@ionic/angular/standalone';
-import { ToastController } from '@ionic/angular';
+import { ToastController, IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import {mail, lockClosed} from 'ionicons/icons';
+import { mail, lockClosed } from 'ionicons/icons';
+import { FirebaseService } from '../../services/firebase.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonItem,IonIcon, IonInput, IonButton, IonCheckbox]
+  imports: [CommonModule, FormsModule, IonicModule]
 })
 export class LoginPage implements OnInit {
 
@@ -19,25 +19,18 @@ export class LoginPage implements OnInit {
   emailError: string | null = null;
   passwordError: string | null = null;
 
-  constructor(private router: Router, private toastCtrl: ToastController) {
-    addIcons({
-      'mail': mail,
-      'lock-closed': lockClosed
-    });
-
+  constructor(private router: Router, private toastCtrl: ToastController, private firebase: FirebaseService) {
+    try { addIcons({ 'mail': mail, 'lockClosed': lockClosed }); } catch (e) { }
   }
 
   ngOnInit() {
   }
 
-  onSubmit(form: NgForm) {
-    // marcar controles como tocados para mostrar mensajes
+  async onSubmit(form: NgForm) {
     Object.keys(form.controls).forEach(k => {
       const control = form.controls[k];
       control.markAsTouched();
     });
-
-    // Validación manual como respaldo (ion-input puede comportarse distinto según versión)
     this.emailError = null;
     this.passwordError = null;
 
@@ -64,17 +57,32 @@ export class LoginPage implements OnInit {
     }
 
     if (!valid) {
-      // mostrar resumen de errores en un toast para feedback claro
       const messages: string[] = [];
       if (this.emailError) messages.push(this.emailError);
       if (this.passwordError) messages.push(this.passwordError);
       const msg = messages.join(' ');
-      this.showErrorToast(msg);
+      await this.showErrorToast(msg);
       return;
     }
 
-    // Si todo es válido, navegar a la lista
-    this.router.navigateByUrl('/listar');
+    // Autenticación únicamente contra Firebase Realtime Database
+    try {
+      const user = await this.firebase.validateUser(email, password);
+      if (!user) {
+        await this.showErrorToast('Correo o contraseña incorrectos.');
+        return;
+      }
+
+      localStorage.setItem('currentUser', JSON.stringify({ name: user.name, email: user.email }));
+
+      // Mantener caches locales de libros e imágenes en localStorage para persistencia entre sesiones.
+
+      await this.showSuccessToast('Inicio de sesión correcto');
+      this.router.navigateByUrl('/listar');
+    } catch (e) {
+      console.error('Error autenticando con Firebase:', e);
+      await this.showErrorToast('Error de conexión con el servidor de autenticación.');
+    }
   }
 
   private async showErrorToast(message: string) {
@@ -87,4 +95,13 @@ export class LoginPage implements OnInit {
     await t.present();
   }
 
+  private async showSuccessToast(message: string) {
+    const t = await this.toastCtrl.create({
+      message,
+      duration: 2000,
+      color: 'success',
+      position: 'top'
+    });
+    await t.present();
+  }
 }
